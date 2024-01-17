@@ -18,6 +18,14 @@ export class CalculateService {
                     },
                     status: HttpStatus.BAD_REQUEST
                 };
+            if(!calculteRequestDto.file.endsWith(".csv"))
+                throw {
+                    data: {
+                        file: calculteRequestDto.file,
+                        error: "Input file not in CSV format."
+                    },
+                    status: HttpStatus.BAD_REQUEST
+                };
             const { data }  = await firstValueFrom(
                 this.httpService.post<CalculateSuccessResponse>(`http://${process.env.CONTAINER_TWO_HOST}:${process.env.CONTAINER_TWO_PORT}/process`, calculteRequestDto).pipe(
                     catchError((error: AxiosError) => {
