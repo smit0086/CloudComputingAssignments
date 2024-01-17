@@ -24,9 +24,22 @@ export class ProcessService {
                     status: HttpStatus.BAD_REQUEST
                 };
             }
-            const records = parse(content, {bom: true});
+            const records = parse(content, {bom: true, });
             try {
+                let index = 0;
                 sum = await records.reduce((acc, record) => {
+                    if(index === 0){
+                        if(record[0] !== "product" || record[1] !== "amount"){
+                            throw {
+                                data: {
+                                    file: processRequestDto.file,
+                                    error: "Input file not in CSV format."
+                                },
+                                status: HttpStatus.BAD_REQUEST
+                            };
+                        }
+                    }
+                    index++;
                     if(record[0] === processRequestDto.product)
                         acc += parseInt(record[1]);
                     return acc;
