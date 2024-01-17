@@ -35,7 +35,7 @@ export class ProcessService {
                 throw {
                     data: {
                         file: processRequestDto.file,
-                        error: "Invalid JSON input."
+                        error: "Input file not in CSV format."
                     },
                     status: HttpStatus.BAD_REQUEST
                 };
