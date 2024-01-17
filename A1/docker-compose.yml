@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   container-one:
     image: smit0086/csci-5409-a1-container-one:latest
