@@ -8,7 +8,7 @@ import * as path from "path";
 @Injectable()
 export class ProcessService {
     async calculate(processRequestDto: ProcessRequest): Promise<ProcessSuccessResponse>{
-        const DIR_PATH = "/";
+        const DIR_PATH = process.env.DIR_PATH;
         const FILE_PATH = path.join(DIR_PATH, processRequestDto.file);
         let sum = 0;
         let content;

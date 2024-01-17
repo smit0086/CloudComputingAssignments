@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  container-one:
+    build: ./ContainerOne
+    ports:
+      - 3000:3000
+    env_file:
+      - ./ContainerOne/.env
+  
+  container-two:
+    build: ./ContainerTwo
+    ports:
+      - 3001:3001
+    volumes:
+      - .:/app/files
+    env_file:
+      - ./ContainerTwo/.env

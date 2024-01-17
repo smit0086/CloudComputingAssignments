@@ -19,7 +19,7 @@ export class CalculateService {
                     status: HttpStatus.BAD_REQUEST
                 };
             const { data }  = await firstValueFrom(
-                this.httpService.post<CalculateSuccessResponse>('http://localhost:3001/process', calculteRequestDto).pipe(
+                this.httpService.post<CalculateSuccessResponse>(`http://${process.env.CONTAINER_TWO_HOST}:${process.env.CONTAINER_TWO_PORT}/process`, calculteRequestDto).pipe(
                     catchError((error: AxiosError) => {
                         throw {
                             data: error.response.data,
@@ -30,6 +30,7 @@ export class CalculateService {
             )
             return data;
         }catch(error) {
+            console.error(error)
             throw new HttpException(error.data, error.status);
         }
     }
