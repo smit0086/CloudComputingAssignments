@@ -4,8 +4,8 @@ services:
     ports:
       - 6000:6000
     environment:
-      - CONTAINER_TWO_HOST = container-two
-      - CONTAINER_TWO_PORT = 3001
+      CONTAINER_TWO_HOST: container-two
+      CONTAINER_TWO_PORT: 3001
   
   container-two:
     image: smit0086/csci-5409-a1-container-two:latest
@@ -14,4 +14,4 @@ services:
     volumes:
       - .:/app/files
     environment:
-      - DIR_PATH = /app/files
+      DIR_PATH: /app/files
