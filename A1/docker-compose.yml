@@ -2,14 +2,14 @@ version: '3.8'
 
 services:
   container-one:
-    build: ./ContainerOne
+    image: smit0086/csci-5409-a1-container-one:latest
     ports:
-      - 3000:3000
+      - 6000:6000
     env_file:
       - ./ContainerOne/.env
   
   container-two:
-    build: ./ContainerTwo
+    image: smit0086/csci-5409-a1-container-two:latest
     ports:
       - 3001:3001
     volumes:
