@@ -37,4 +37,10 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList()));
         return response;
     }
+
+    @Override
+    public StoreProductSuccessResponse deleteAllProducts() {
+        productRepository.deleteAll();
+        return new StoreProductSuccessResponse("Success.");
+    }
 }

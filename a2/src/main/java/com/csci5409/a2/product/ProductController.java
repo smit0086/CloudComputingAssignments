@@ -24,4 +24,9 @@ public class ProductController {
     public ResponseEntity<StoreProductSuccessResponse> storeProduct(@RequestBody ProductListDTO productListDTO) {
         return ResponseEntity.ok(productService.saveProducts(productListDTO));
     }
+
+    @PostMapping("/delete-all-products")
+    public ResponseEntity<StoreProductSuccessResponse> deleteAllProducts() {
+        return ResponseEntity.ok(productService.deleteAllProducts());
+    }
 }

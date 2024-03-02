@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 public class A2Application {
 
 	public static void main(String[] args) {
+		System.out.println(System.getenv("JDBC_DATABASE_URL"));
 		SpringApplication.run(A2Application.class, args);
 	}
 }

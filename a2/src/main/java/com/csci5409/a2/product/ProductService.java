@@ -9,4 +9,6 @@ import java.util.List;
 public interface ProductService {
     StoreProductSuccessResponse saveProducts(ProductListDTO productListDTO);
     ProductListDTO getAllProducts();
+
+    StoreProductSuccessResponse deleteAllProducts();
 }
