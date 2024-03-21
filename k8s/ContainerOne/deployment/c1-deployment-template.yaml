@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: c1-deployment
+  labels:
+    app: c1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: c1
+  template:
+    metadata:
+      labels:
+        app: c1
+    spec:
+      containers:
+      - name: c1-container
+        image: us-central1-docker.pkg.dev/csci-5409-k8s-416218/container-one/container-one-image:IMAGE_TAG_PLACEHOLDER
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 6000
+        volumeMounts:
+        - name: app-volume
+          mountPath: /smit_PV_dir
+        env:
+        - name: CONTAINER_TWO_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: container_two_host
+        - name: CONTAINER_TWO_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: container_two_port
+        - name: OUT_DIR
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: input_file_dir
+      volumes:
+      - name: app-volume
+        persistentVolumeClaim:
+          claimName: app-pvc
+  
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: c1-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: c1
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 6000
