@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: c2-deployment
+  labels:
+    app: c2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: c2
+  template:
+    metadata:
+      labels:
+        app: c2
+    spec:
+      containers:
+      - name: c2-container
+        image: us-central1-docker.pkg.dev/csci-5409-k8s-416218/container-two/container-two-image:IMAGE_TAG_PLACEHOLDER
+        ports:
+        - containerPort: 3001
+        volumeMounts:
+        - name: app-volume
+          mountPath: /smit_PV_dir
+        env:
+        - name: DIR_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: input_file_dir
+      volumes:
+      - name: app-volume
+        persistentVolumeClaim:
+          claimName: app-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: c2-service
+spec:
+  selector:
+    app: c2
+  ports:
+  - protocol: TCP
+    port: 3001
+    targetPort: 3001

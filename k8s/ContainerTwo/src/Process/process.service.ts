@@ -24,7 +24,7 @@ export class ProcessService {
                     status: HttpStatus.BAD_REQUEST
                 };
             }
-            const records = parse(content, {bom: true, });
+            const records = parse(content, {bom: true,trim: true });
             try {
                 let index = 0;
                 sum = await records.reduce((acc, record) => {

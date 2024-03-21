@@ -6,7 +6,7 @@ import * as path from 'path';
 @Injectable()
 export class StoreFileService {
     async storeFile(StoreFileRequest: StoreFileRequest): Promise<StoreFileResponse> {
-        const outputDir = path.join(__dirname, 'out');
+        const outputDir = process.env.OUT_DIR || path.join(__dirname, 'out');
         // Create the output directory if it doesn't exist
 
         if(!StoreFileRequest.file){
@@ -25,7 +25,7 @@ export class StoreFileService {
             fs.writeFileSync(filePath, StoreFileRequest.data, 'utf8');
             return {
                 file: StoreFileRequest.file,
-                message: "File stored successfully."
+                message: "Success."
             };
           } catch (error) {
             console.error('Error writing file:', error);
