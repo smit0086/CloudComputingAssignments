@@ -1,0 +1,99 @@
+{
+  "Comment": "A description of my state machine",
+  "StartAt": "Choice",
+  "States": {
+    "Choice": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.action",
+          "StringEquals": "sha256",
+          "Next": "Invoke sha256"
+        },
+        {
+          "Variable": "$.action",
+          "StringEquals": "md5",
+          "Next": "invoke md5"
+        },
+        {
+          "Variable": "$.action",
+          "StringEquals": "bcrypt",
+          "Next": "invoke bcrypt"
+        }
+      ],
+      "Default": "Fail"
+    },
+    "Fail": {
+      "Type": "Fail"
+    },
+    "Invoke sha256": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "OutputPath": "$.Payload",
+      "Parameters": {
+        "Payload.$": "$",
+        "FunctionName": "arn:aws:lambda:us-east-1:637423445974:function:hashingSHA256:$LATEST"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "End": true
+    },
+    "invoke md5": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "OutputPath": "$.Payload",
+      "Parameters": {
+        "Payload.$": "$",
+        "FunctionName": "arn:aws:lambda:us-east-1:637423445974:function:hashingMD5:$LATEST"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "End": true
+    },
+    "invoke bcrypt": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "OutputPath": "$.Payload",
+      "Parameters": {
+        "Payload.$": "$",
+        "FunctionName": "arn:aws:lambda:us-east-1:637423445974:function:hashingBCRYPT:$LATEST"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "End": true
+    }
+  }
+}
